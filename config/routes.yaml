@@ -3,3 +3,8 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+create_report:
+    path: /report/user/{userId}/bet/{bet}/
+    controller: App\Controller\ReportController::createReport
+    methods: GET

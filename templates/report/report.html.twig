@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report</title>
+    <meta charset="utf-8"/>
+    <style type="text/css">
+        body {
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0lax{text-align:left;vertical-align:top}
+        p { text-indent: 25px;margin-top: 5px;
+            margin-bottom: 5px; }
+        table.iksweb{text-decoration: none;border-collapse:collapse;width:80%;text-align:left;}
+        table.iksweb th{font-weight:normal;font-size:14px; color:#ffffff;background-color:#000000;}
+        table.iksweb td{color:#000000;}
+        table.iksweb td,table.iksweb th{white-space:pre-wrap;padding:10px 5px;line-height:13px;vertical-align: middle;}
+        table.iksweb tr:hover{background-color:#f9fafb}
+        table.iksweb tr:hover td{color:#000000;cursor:default;}
+    </style>
+</head>
+<body>
+
+<h3 style="text-align: center">АКТ ОБ ОКАЗАНИИ УСЛУГ</h3>
+<table width="100%">
+    <tr>
+        <td>г. Липецк</td>
+        <td align="right">{{ data.date }}</td>
+    </tr>
+</table>
+<br>
+<p>
+    <b>Общество с ограниченной ответственностью «Веб Интаро»</b>, далее именуемое «Заказчик», в лице директора Бондаренко Виктор Васильевич, действующего на основании Устава, с одной стороны, и
+</p>
+<p>
+    <b>Ардашев Станислав Витальевич</b>, именуемый в дальнейшем <b>«Исполнитель»</b>, с другой стороны, подписали настоящий акт об оказании услуг.
+</p>
+<p>
+    1. Исполнителем были оказаны следующие услуги по договору возмездного оказания услуг № ВИ-01012023-1 от 01.01.2023 г. (далее - Договор):
+</p>
+
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0lax" rowspan="2">№</th>
+        <th class="tg-0lax" colspan="2">Период оказания</th>
+        <th class="tg-0lax" rowspan="2">Содержание услуги (перечень действий)</th>
+        <th class="tg-0lax" rowspan="2">Результат оказания услуг</th>
+        <th class="tg-0lax" rowspan="2">Характеристики услуг и их результата (количество, объем, иные характеристики)</th>
+        <th class="tg-0lax" rowspan="2">Стоимость, руб.</th>
+    </tr>
+    <tr>
+        <th class="tg-0lax">с</th>
+        <th class="tg-0lax">по</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0lax">1</td>
+        <td class="tg-0lax">{{ data.firstDay }}</td>
+        <td class="tg-0lax">{{ data.lastDay }}</td>
+        <td class="tg-0lax">Разработка на php</td>
+        <td class="tg-0lax">Выполнено</td>
+        <td align="center">{{ data.hours }}</td>
+        <td align="center">{{ data.sum }}</td>
+    </tr>
+    <tr>
+        <td class="tg-0lax" colspan="6">ИТОГО:</td>
+        <td align="center">{{ data.sum }}</td>
+    </tr>
+    </tbody>
+</table>
+<p>2. Итого услуг по Договору оказано на сумму {{ data.sum }} ({{ data.sumString }}) руб.</p>
+<p>3. Вышеперечисленные услуги оказаны (выбрать нужное):<p>
+<p>- своевременно в необходимом объеме и в соответствии с требованиями, установленными Договором к качеству услуг.</p>
+<p>4. Акт составлен и подписан в двух экземплярах, имеющих одинаковую юридическую силу, по одному для каждой из Сторон.</p>
+
+<br>
+<table class="iksweb">
+    <tbody>
+    <tr>
+        <td colspan="2">От имени Заказчика</td>
+        <td colspan="2">Исполнитель</td>
+    </tr>
+    <tr>
+        <td colspan="2">директор ООО «Веб Интаро»</td>
+        <td colspan="2">Ардашев Станислав Витальевич</td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td>______________</td>
+        <td>/Бондаренко В.В./</td>
+        <td>______________</td>
+        <td>/ Ардашев С.В./</td>
+    </tr>
+    <tr>
+        <td>(подпись)</td>
+        <td>(Ф.И.О.)</td>
+        <td>(подпись)</td>
+        <td>(Ф.И.О.)</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<h3 style="text-align: center">ЗАДАНИЕ</h3>
+<div style="text-align: center">на оказание услуг</div>
+<br>
+<br>
+<table class="tg">
+    <thead>
+    <tr>
+        <th scope="col">№</th>
+        <th scope="col">Наименование услуги</th>
+        <th scope="col">Содержание конкретных задач</th>
+        <th scope="col">Срок оказания, количество часов</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set count = 1 %}
+    {% for key, value in data.report %}
+        <tr>
+            <th scope="row">{{ count }}</th>
+            <td>
+                {% if key != '' %}
+                    #{{ key }}:<br>
+                {% endif %}
+                {{ value.project_name }}:<br>
+                {{ value.title }}
+            </td>
+            <td>
+                <ul>
+                    {% for el in value.comment %}
+                        <li>{{ el }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td align="center">{{ value.hours }}</td>
+        </tr>
+        {% set count = count + 1 %}
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+<div>Задание согласовано Сторонами.</div>
+<br>
+<table class="iksweb">
+    <tbody>
+    <tr>
+        <td colspan="2">От имени Заказчика</td>
+        <td colspan="2">Исполнитель</td>
+    </tr>
+    <tr>
+        <td colspan="2">директор ООО «Веб Интаро»</td>
+        <td colspan="2">Ардашев Станислав Витальевич</td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td>______________</td>
+        <td>/Бондаренко В.В./</td>
+        <td>______________</td>
+        <td>/ Ардашев С.В./</td>
+    </tr>
+    <tr>
+        <td>(подпись)</td>
+        <td>(Ф.И.О.)</td>
+        <td>(подпись)</td>
+        <td>(Ф.И.О.)</td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
+
+
