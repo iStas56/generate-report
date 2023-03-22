@@ -4,7 +4,7 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-create_report:
-    path: /report/user/{userId}/bet/{bet}/
-    controller: App\Controller\ReportController::createReport
-    methods: GET
+handle-form:
+    path: /create-report
+    controller: App\Controller\ReportFormController::handleForm
+    methods: [GET, POST]

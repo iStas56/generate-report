@@ -8,32 +8,53 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class EvoTaskService
 {
-    public function getTasksData(int $userId, int $bet)
-    {
-        $first_day_last_month = date('01.m.Y', strtotime('last month'));
-        $last_day_last_month = date('t.m.Y', strtotime('last month'));
+    private $apiHttpService;
+    private $startDate;
+    private $emdDate;
+    private $userId;
+    private $token;
+    private $bet;
 
-        $params = [
-            'token' => 'infeidp15dspkvbmzroevarten8650k8',
-            'filter[employer_id]' => $userId,
-            'filter[date][from]' => $first_day_last_month,
-            'filter[date][to]' => $last_day_last_month,
+    private array $params;
+
+    public function __construct(ApiHttpService $apiHttpService)
+    {
+        $this->apiHttpService = $apiHttpService;
+    }
+
+    public function init(array $formData)
+    {
+        $this->userId = $formData['userId'];
+        $this->startDate = $formData['startDate'];
+        $this->emdDate = $formData['endDate'];
+        $this->token = $formData['token'];
+        $this->bet = $formData['bet'];
+        
+        $this->prepareParams();
+
+        return $this->getTasksData();
+    }
+
+    private function prepareParams()
+    {
+        $this->params = [
+            'token' => $this->token,
+            'filter[employer_id]' => $this->userId,
+            'filter[date][from]' => $this->startDate,
+            'filter[date][to]' => $this->emdDate,
             'sort' => 'date',
             'dir' => 'ASC',
             'limit' => 5000
         ];
+    }
 
-        $client = HttpClient::create();
-        $response = $client->request('GET', 'https://evo.skillum.ru/api/task', [
-            'query' => $params,
-        ]);
-
-        $status = $response->getStatusCode();
-        $content = json_decode($response->getContent(), true);
+    private function getTasksData()
+    {
+        $content = $this->apiHttpService->getTasks($this->params);
 
         $result = [];
         $countHours = 0;
-        if ($status === 200) {
+        if (!empty($content)) {
             foreach ($content['data'] as $task) {
 
                 $countHours += (int)$task['time'];
@@ -54,10 +75,10 @@ class EvoTaskService
         return [
             'hours' => $countHours,
             'date' => date("d.m.Y"),
-            'firstDay' => $first_day_last_month,
-            'lastDay' => $last_day_last_month,
-            'sumString' => CardinalNumeralGenerator::getCase($countHours * $bet, 'именительный'),
-            'sum' => $countHours * $bet,
+            'firstDay' => $this->startDate,
+            'lastDay' => $this->emdDate,
+            'sumString' => CardinalNumeralGenerator::getCase($countHours * $this->bet, 'именительный'),
+            'sum' => $countHours * $this->bet,
             'report' => $result
         ];
     }
