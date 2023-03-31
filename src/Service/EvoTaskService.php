@@ -2,83 +2,60 @@
 
 namespace App\Service;
 
-use morphos\Gender;
+use morphos\Cases;
 use morphos\Russian\CardinalNumeralGenerator;
-use Symfony\Component\HttpClient\HttpClient;
 
 class EvoTaskService
 {
     private $apiHttpService;
-    private $startDate;
-    private $emdDate;
-    private $userId;
-    private $token;
-    private $bet;
-
-    private array $params;
+    private $params = [];
 
     public function __construct(ApiHttpService $apiHttpService)
     {
         $this->apiHttpService = $apiHttpService;
     }
 
-    public function init(array $formData)
+    public function getTasksData(array $formData)
     {
-        $this->userId = $formData['userId'];
-        $this->startDate = $formData['startDate'];
-        $this->emdDate = $formData['endDate'];
-        $this->token = $formData['token'];
-        $this->bet = $formData['bet'];
-        
-        $this->prepareParams();
+        $this->params['token'] = $formData['token'];
+        $this->params['filter[employer_id]'] = $formData['userId'];
+        $this->params['filter[date][from]'] = $formData['startDate'];
+        $this->params['filter[date][to]'] = $formData['endDate'];
+        $this->params['limit'] = 5000;
+        $this->params['sort'] = 'date';
+        $this->params['dir'] = 'ASC';
 
-        return $this->getTasksData();
+        return $this->getDataFromApi($formData['bet']);
     }
 
-    private function prepareParams()
-    {
-        $this->params = [
-            'token' => $this->token,
-            'filter[employer_id]' => $this->userId,
-            'filter[date][from]' => $this->startDate,
-            'filter[date][to]' => $this->emdDate,
-            'sort' => 'date',
-            'dir' => 'ASC',
-            'limit' => 5000
-        ];
-    }
-
-    private function getTasksData()
+    private function getDataFromApi($bet)
     {
         $content = $this->apiHttpService->getTasks($this->params);
 
+        if (empty($content)) {
+            return [];
+        }
+
         $result = [];
         $countHours = 0;
-        if (!empty($content)) {
-            foreach ($content['data'] as $task) {
 
-                $countHours += (int)$task['time'];
+        foreach ($content['data'] as $task) {
+            $countHours += (int)$task['time'];
 
-                if (!isset($result[$task['task_id']]['hours']))
-                    $result[$task['task_id']]['hours'] = 0;
-
-                if (!isset($result[$task['task_id']]['comment']))
-                    $result[$task['task_id']]['comment'] = [];
-
-                $result[$task['task_id']]['project_name'] = $task['project_name'];
-                $result[$task['task_id']]['title'] = $task['title'];
-                $result[$task['task_id']]['comment'][] = $task['comment'];
-                $result[$task['task_id']]['hours'] += $task['time'];
-            }
+            $result[$task['task_id']]['project_name'] = $task['project_name'];
+            $result[$task['task_id']]['title'] = $task['title'];
+            $result[$task['task_id']]['comment'][] = $task['comment'];
+            $result[$task['task_id']]['hours'] ??= 0;
+            $result[$task['task_id']]['hours'] += $task['time'];
         }
 
         return [
             'hours' => $countHours,
             'date' => date("d.m.Y"),
-            'firstDay' => $this->startDate,
-            'lastDay' => $this->emdDate,
-            'sumString' => CardinalNumeralGenerator::getCase($countHours * $this->bet, 'именительный'),
-            'sum' => $countHours * $this->bet,
+            'firstDay' => $this->params['filter[date][from]'],
+            'lastDay' => $this->params['filter[date][to]'],
+            'sumString' => CardinalNumeralGenerator::getCase($countHours * $bet, Cases::NOMINATIVE),
+            'sum' => $countHours * $bet,
             'report' => $result
         ];
     }

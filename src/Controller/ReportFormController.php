@@ -25,7 +25,7 @@ class ReportFormController extends AbstractController
 
             $formData = $form->getData();
 
-            $taskData = $this->evoTaskService->init($formData);
+            $taskData = $this->evoTaskService->getTasksData($formData);
 
             return $this->render('report/report.html.twig', [
                 'data' => $taskData
