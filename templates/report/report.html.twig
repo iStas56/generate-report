@@ -29,7 +29,7 @@
 <table width="100%">
     <tr>
         <td>г. Липецк</td>
-        <td align="right">{{ data.date }}</td>
+        <td align="right">{{ data.date.curDate }}</td>
     </tr>
 </table>
 <br>
@@ -37,10 +37,10 @@
     <b>Общество с ограниченной ответственностью «Веб Интаро»</b>, далее именуемое «Заказчик», в лице директора Бондаренко Виктор Васильевич, действующего на основании Устава, с одной стороны, и
 </p>
 <p>
-    <b>Ардашев Станислав Витальевич</b>, именуемый в дальнейшем <b>«Исполнитель»</b>, с другой стороны, подписали настоящий акт об оказании услуг.
+    <b>{{ data.user.fullUserName }}</b>, именуемый в дальнейшем <b>«Исполнитель»</b>, с другой стороны, подписали настоящий акт об оказании услуг.
 </p>
 <p>
-    1. Исполнителем были оказаны следующие услуги по договору возмездного оказания услуг № ВИ-01012023-1 от 01.01.2023 г. (далее - Договор):
+    1. Исполнителем были оказаны следующие услуги по договору возмездного оказания услуг {{ data.user.contract }} (далее - Договор):
 </p>
 
 <table class="tg">
@@ -61,20 +61,31 @@
     <tbody>
     <tr>
         <td class="tg-0lax">1</td>
-        <td class="tg-0lax">{{ data.firstDay }}</td>
-        <td class="tg-0lax">{{ data.lastDay }}</td>
+        <td class="tg-0lax">{{ data.date.firstDay }}</td>
+        <td class="tg-0lax">{{ data.date.lastDay }}</td>
         <td class="tg-0lax">Разработка на php</td>
         <td class="tg-0lax">Выполнено</td>
-        <td align="center">{{ data.hours }}</td>
-        <td align="center">{{ data.sum }}</td>
+        <td align="center">{{ data.calculate.mainHours }}</td>
+        <td align="center">{{ data.calculate.mainSum }}</td>
     </tr>
+    {% if data.calculate.isShowExtendedData %}
+        <tr>
+            <td class="tg-0lax">2</td>
+            <td class="tg-0lax">{{ data.date.startDateExtend }}</td>
+            <td class="tg-0lax">{{ data.date.endDateExtend }}</td>
+            <td class="tg-0lax">Обучение</td>
+            <td class="tg-0lax">Пройдено</td>
+            <td align="center">{{ data.calculate.extendHours }}</td>
+            <td align="center">{{ data.calculate.extendSum }}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td class="tg-0lax" colspan="6">ИТОГО:</td>
-        <td align="center">{{ data.sum }}</td>
+        <td align="center">{{ data.calculate.totalSum }}</td>
     </tr>
     </tbody>
 </table>
-<p>2. Итого услуг по Договору оказано на сумму {{ data.sum }} ({{ data.sumString }}) руб.</p>
+<p>2. Итого услуг по Договору оказано на сумму {{ data.calculate.totalSum }} ({{ data.calculate.stringSum }}) руб.</p>
 <p>3. Вышеперечисленные услуги оказаны (выбрать нужное):<p>
 <p>- своевременно в необходимом объеме и в соответствии с требованиями, установленными Договором к качеству услуг.</p>
 <p>4. Акт составлен и подписан в двух экземплярах, имеющих одинаковую юридическую силу, по одному для каждой из Сторон.</p>
@@ -88,7 +99,7 @@
     </tr>
     <tr>
         <td colspan="2">директор ООО «Веб Интаро»</td>
-        <td colspan="2">Ардашев Станислав Витальевич</td>
+        <td colspan="2">{{ data.user.fullUserName }}</td>
     </tr>
     <tr>
         <td colspan="2"></td>
@@ -98,7 +109,7 @@
         <td>______________</td>
         <td>/Бондаренко В.В./</td>
         <td>______________</td>
-        <td>/ Ардашев С.В./</td>
+        <td>/{{ data.user.shortUserName }}/</td>
     </tr>
     <tr>
         <td>(подпись)</td>
@@ -146,6 +157,18 @@
         </tr>
         {% set count = count + 1 %}
     {% endfor %}
+    {% if data.calculate.isShowExtendedData %}
+        <tr>
+            <th scope="row">{{ count }}</th>
+            <td>Инкубатор</td>
+            <td>
+                <ul>
+                    <li>Обучение</li>
+                </ul>
+            </td>
+            <td align="center">{{ data.calculate.extendHours }}</td>
+        </tr>
+    {% endif %}
     </tbody>
 </table>
 <br>
@@ -159,7 +182,7 @@
     </tr>
     <tr>
         <td colspan="2">директор ООО «Веб Интаро»</td>
-        <td colspan="2">Ардашев Станислав Витальевич</td>
+        <td colspan="2">{{ data.user.fullUserName }}</td>
     </tr>
     <tr>
         <td colspan="2"></td>
@@ -169,7 +192,7 @@
         <td>______________</td>
         <td>/Бондаренко В.В./</td>
         <td>______________</td>
-        <td>/ Ардашев С.В./</td>
+        <td>/{{ data.user.shortUserName }}/</td>
     </tr>
     <tr>
         <td>(подпись)</td>

@@ -5,31 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
+
 <div class="container mt-5">
-
+    <h2 class="mb-5">Форма для генерации отчета</h2>
     {{ form_start(form) }}
-    <div class="form-group">
-        {{ form_row(form.userId, {'label': 'ID пользователя', 'attr': {'class': 'form-control'}}) }}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            {{ form_row(form.userId, {'label': 'ID пользователя', 'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group col-md-6">
+            {{ form_row(form.startDate, {'label': 'Начальная дата', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 01.03.2023'}}) }}
+        </div>
     </div>
-    <div class="form-group">
-        {{ form_row(form.bet, {'label': 'Ставка за час', 'attr': {'class': 'form-control'}}) }}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            {{ form_row(form.bet, {'label': 'Ставка за час', 'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group col-md-6">
+            {{ form_row(form.endDate, {'label': 'Конечная дата', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 31.03.2023'}}) }}
+        </div>
     </div>
-    <div class="form-group">
-        {{ form_row(form.startDate, {'label': 'Начальная дата', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 01.03.2023'}}) }}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            {{ form_row(form.fio, {'label': 'Исполнитель', 'attr': {'class': 'form-control', }}) }}
+        </div>
+        <div class="form-group col-md-6">
+            {{ form_row(form.contract, {'label': 'Договор', 'attr': {'class': 'form-control', 'placeholder': 'Пример: № ВИ-01012023-1 от 01.01.2023 г.'}}) }}
+        </div>
     </div>
-    <div class="form-group">
-        {{ form_row(form.endDate, {'label': 'Конечная дата', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 31.03.2023'}}) }}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            {{ form_row(form.token, {'label': 'Токен Evo', 'attr': {'class': 'form-control'}}) }}
+        </div>
     </div>
-    <div class="form-group">
-        {{ form_row(form.token, {'label': 'Токен Evo', 'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class="form-group">
-        {{ form_row(form.submit, {'label': 'Отправить', 'attr': {'class': 'btn btn-primary'}}) }}
-    </div>
-    {{ form_end(form) }}
 
+    <div class="form-group col-md-12">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="show-fields-checkbox">
+            <label class="form-check-label" for="show-fields-checkbox" data-toggle="tooltip" title="Если нужно указать премию или отпуск, то необходимо заполнить поля ниже">
+                Показать дополнительные поля
+            </label>
+        </div>
+    </div>
+    <div id="additional-fields" style="display: none;">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                {{ form_row(form.extendSum, {'label': 'Сумма', 'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form_row(form.startDateExtend, {'label': 'Начальная дата для допвыплат', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 01.03.2023'}}) }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form_row(form.endDateExtend, {'label': 'Конечная дата для допвыплат', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 31.03.2023'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            {{ form_row(form.submit, {'label': 'Отправить', 'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    {{ form_end(form) }}
 </div>
+
+<script>
+    document.getElementById('show-fields-checkbox').addEventListener('change', function() {
+        var additionalFields = document.getElementById('additional-fields');
+        if (this.checked) {
+            additionalFields.style.display = 'block';
+        } else {
+            additionalFields.style.display = 'none';
+        }
+    });
+</script>
+
+
 </body>
 </html>

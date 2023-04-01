@@ -8,11 +8,13 @@ use morphos\Russian\CardinalNumeralGenerator;
 class EvoTaskService
 {
     private $apiHttpService;
+    private $countService;
     private $params = [];
 
-    public function __construct(ApiHttpService $apiHttpService)
+    public function __construct(ApiHttpService $apiHttpService, CountService $countService)
     {
         $this->apiHttpService = $apiHttpService;
+        $this->countService = $countService;
     }
 
     public function getTasksData(array $formData)
@@ -25,10 +27,10 @@ class EvoTaskService
         $this->params['sort'] = 'date';
         $this->params['dir'] = 'ASC';
 
-        return $this->getDataFromApi($formData['bet']);
+        return $this->getDataFromApi($formData);
     }
 
-    private function getDataFromApi($bet)
+    private function getDataFromApi($formData)
     {
         $content = $this->apiHttpService->getTasks($this->params);
 
@@ -49,13 +51,27 @@ class EvoTaskService
             $result[$task['task_id']]['hours'] += $task['time'];
         }
 
+        $arDate = [
+            'curDate' => date("d.m.Y"),
+            'firstDay' => $formData['startDate'],
+            'lastDay' => $formData['endDate'],
+            'startDateExtend' => $formData['startDateExtend'] ?? '',
+            'endDateExtend' => $formData['endDateExtend'] ?? '',
+        ];
+
+        $strName = explode(' ', $formData['fio']);
+        $shortName = $strName[0] . ' ' . mb_substr($strName[1], 0, 1) . '.' . mb_substr($strName[2], 0, 1) . '.';
+
+        $userDate = [
+            'contract' => $formData['contract'],
+            'fullUserName' => $formData['fio'],
+            'shortUserName' => $shortName,
+        ];
+
         return [
-            'hours' => $countHours,
-            'date' => date("d.m.Y"),
-            'firstDay' => $this->params['filter[date][from]'],
-            'lastDay' => $this->params['filter[date][to]'],
-            'sumString' => CardinalNumeralGenerator::getCase($countHours * $bet, Cases::NOMINATIVE),
-            'sum' => $countHours * $bet,
+            'user' => $userDate,
+            'calculate' => $this->countService->calculateHoursAndSum($formData, $countHours),
+            'date' => $arDate,
             'report' => $result
         ];
     }
