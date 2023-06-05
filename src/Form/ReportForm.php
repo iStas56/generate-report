@@ -20,7 +20,7 @@ class ReportForm extends AbstractType
             ->add('contract', TextType::class, ['data' => '№ ВИ-01012023-1 от 01.01.2023 г'])
             ->add('startDate', TextType::class, ['data' => '01.03.2023'])
             ->add('endDate', TextType::class, ['data' => '31.03.2023'])
-            ->add('token', TextType::class, ['data' => 'infeidp15dspkvbmzroevarten8650k8'])
+            ->add('token', TextType::class)
             ->add('extendSum', IntegerType::class, ['required' => false])
             ->add('startDateExtend', TextType::class, ['required' => false])
             ->add('endDateExtend', TextType::class, ['required' => false])
