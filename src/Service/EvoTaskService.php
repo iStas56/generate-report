@@ -55,8 +55,8 @@ class EvoTaskService
             'curDate' => date("d.m.Y"),
             'firstDay' => $formData['startDate']->format('d.m.Y'),
             'lastDay' => $formData['endDate']->format('d.m.Y'),
-            'startDateExtend' => $formData['startDateExtend']->format('d.m.Y') ?? '',
-            'endDateExtend' => $formData['endDateExtend']->format('d.m.Y') ?? '',
+            'startDateExtend' => isset($formData['startDateExtend']) ? $formData['startDateExtend']->format('d.m.Y') : '',
+            'endDateExtend' => isset($formData['endDateExtend']) ? $formData['endDateExtend']->format('d.m.Y') : '',
         ];
 
         $strName = explode(' ', $formData['fio']);
