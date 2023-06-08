@@ -18,7 +18,7 @@
             {{ form_row(form.userId, {'label': 'ID пользователя', 'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group col-md-6">
-            {{ form_row(form.startDate, {'label': 'Начальная дата', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 01.03.2023'}}) }}
+            {{ form_row(form.startDate, {'label': 'Начальная дата', 'attr': {'class': 'form-control'}}) }}
         </div>
     </div>
     <div class="form-row">
@@ -26,7 +26,7 @@
             {{ form_row(form.bet, {'label': 'Ставка за час', 'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group col-md-6">
-            {{ form_row(form.endDate, {'label': 'Конечная дата', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 31.03.2023'}}) }}
+            {{ form_row(form.endDate, {'label': 'Конечная дата', 'attr': {'class': 'form-control'}}) }}
         </div>
     </div>
     <div class="form-row">
@@ -57,10 +57,10 @@
                 {{ form_row(form.extendSum, {'label': 'Сумма', 'attr': {'class': 'form-control'}}) }}
             </div>
             <div class="form-group col-md-4">
-                {{ form_row(form.startDateExtend, {'label': 'Начальная дата для допвыплат', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 01.03.2023'}}) }}
+                {{ form_row(form.startDateExtend, {'label': 'Начальная дата для допвыплат', 'attr': {'class': 'form-control'}}) }}
             </div>
             <div class="form-group col-md-4">
-                {{ form_row(form.endDateExtend, {'label': 'Конечная дата для допвыплат', 'attr': {'class': 'form-control', 'placeholder': 'Пример: 31.03.2023'}}) }}
+                {{ form_row(form.endDateExtend, {'label': 'Конечная дата для допвыплат', 'attr': {'class': 'form-control'}}) }}
             </div>
         </div>
     </div>
