@@ -19,7 +19,8 @@
         "symfony/twig-bundle": "6.2.*",
         "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "6.2.*",
-        "wapmorgan/morphos": "^3.2"
+        "wapmorgan/morphos": "^3.2",
+        "npm-asset/flatpickr": "^4.6"
     },
     "config": {
         "allow-plugins": {

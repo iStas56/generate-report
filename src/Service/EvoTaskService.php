@@ -21,8 +21,8 @@ class EvoTaskService
     {
         $this->params['token'] = $formData['token'];
         $this->params['filter[employer_id]'] = $formData['userId'];
-        $this->params['filter[date][from]'] = $formData['startDate'];
-        $this->params['filter[date][to]'] = $formData['endDate'];
+        $this->params['filter[date][from]'] = $formData['startDate']->format('d.m.Y');
+        $this->params['filter[date][to]'] = $formData['endDate']->format('d.m.Y');
         $this->params['limit'] = 5000;
         $this->params['sort'] = 'date';
         $this->params['dir'] = 'ASC';
@@ -53,10 +53,10 @@ class EvoTaskService
 
         $arDate = [
             'curDate' => date("d.m.Y"),
-            'firstDay' => $formData['startDate'],
-            'lastDay' => $formData['endDate'],
-            'startDateExtend' => $formData['startDateExtend'] ?? '',
-            'endDateExtend' => $formData['endDateExtend'] ?? '',
+            'firstDay' => $formData['startDate']->format('d.m.Y'),
+            'lastDay' => $formData['endDate']->format('d.m.Y'),
+            'startDateExtend' => $formData['startDateExtend']->format('d.m.Y') ?? '',
+            'endDateExtend' => $formData['endDateExtend']->format('d.m.Y') ?? '',
         ];
 
         $strName = explode(' ', $formData['fio']);

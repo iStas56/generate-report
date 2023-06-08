@@ -5,6 +5,6 @@ controllers:
     type: attribute
 
 handle-form:
-    path: /create-report
+    path: /
     controller: App\Controller\ReportFormController::handleForm
     methods: [GET, POST]
